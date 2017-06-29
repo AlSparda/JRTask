@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,8 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void updateUser(User name) {
-        userDao.updateUser(name);
+    public void updateUser(User name, Date date) {
+        userDao.updateUser(name,date);
     }
 
     @Override
@@ -49,13 +50,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> filteredUsers(String type) {
-        return userDao.filteredUsers(type);
+    public List<User> findUsers(String type) {
+        return userDao.findUsers(type);
     }
 
     @Override
     @Transactional
     public void fillUsers() {
-        userDao.fillUsers();
+        userDao.findUsers();
     }
 }

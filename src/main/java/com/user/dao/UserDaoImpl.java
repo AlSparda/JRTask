@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -25,10 +26,11 @@ public class UserDaoImpl implements UserDao {
 
     @Transactional
     @Override
-    public void updateUser(User user) {
+    public void updateUser(User user, Date date) {
         if (user.getId() == null) {
             this.em.persist(user);
         } else {
+            user.setCreatedDate(date);
             this.em.merge(user);
         }
     }
@@ -50,26 +52,30 @@ public class UserDaoImpl implements UserDao {
     @Override
     @SuppressWarnings("unchecked")
     public List<User> listUsers() {
-        return em.createQuery("from user ").getResultList();
+        return em.createQuery("from users ").getResultList();
     }
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<User> filteredUsers(String type) {
+    public List<User> findUsers(String type) {
         return em.createQuery(
-                "SELECT user FROM user user WHERE user.isAdmin = :done ORDER BY user.name")
-                .setParameter("done", type.equals("done"))
+                "SELECT user FROM users user WHERE user.name = :x")
+                .setParameter("x", type)
                 .getResultList();
     }
 
+
+
     @Override
     @Transactional
-    public void fillUsers() {
+    public void findUsers() {
         Random random = new Random();
-        for (int i=0; i<10; i++) {
+        String[] randomName = {"Alex","John","Ilya","Tanya","Oksana","Max","Lescha","Kevin","Lisa","Vika","Dasha","Jack"};
+        for (int i=0; i<5; i++) {
             User user = new User();
             user.setIsAdmin(random.nextBoolean());
-            user.setName((random.nextBoolean() ? "Important " : "Useless ") + "deed #" + i);
+            user.setName(randomName[(int)(Math.random()*12)]);
+            user.setAge((int)(Math.random()*35)+1);
 
             addUser(user);
         }

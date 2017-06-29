@@ -7,7 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 @Transactional
-@Entity(name = "user")
+@Entity(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

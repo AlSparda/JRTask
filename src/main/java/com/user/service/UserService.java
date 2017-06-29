@@ -2,6 +2,7 @@ package com.user.service;
 
 import com.user.model.User;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,12 +10,12 @@ import java.util.List;
  */
 public interface UserService {
     void addUser(User name);
-    void updateUser(User name);
+    void updateUser(User name, Date date);
     void removeUser(Long id);
     User getUserById(Long id);
     List<User> listUserd();
 
-    List<User> filteredUsers(String type);
+    List<User> findUsers(String type);
 
     void fillUsers();
 }
